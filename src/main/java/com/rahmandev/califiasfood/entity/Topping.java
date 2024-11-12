@@ -4,6 +4,8 @@ import com.rahmandev.califiasfood.constant.ConstantTable;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -19,4 +21,6 @@ public class Topping {
     private String name;
     @Column(name = "price", nullable = false)
     private Long price;
+    @Column(name = "delete_at", nullable = true)
+    private Date deleteAt;
 }

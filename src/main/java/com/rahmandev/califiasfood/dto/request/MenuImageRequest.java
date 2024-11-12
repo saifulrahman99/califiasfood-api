@@ -8,4 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class MenuImageRequest {
+    private String id;
+    private String name;
+    private String path;
+    private Long size;
+    private String contentType;
 }

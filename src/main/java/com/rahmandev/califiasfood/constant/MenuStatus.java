@@ -1,6 +1,6 @@
 package com.rahmandev.califiasfood.constant;
 
-public enum StatusMenu {
+public enum MenuStatus {
     READY,
     PREORDER
 }

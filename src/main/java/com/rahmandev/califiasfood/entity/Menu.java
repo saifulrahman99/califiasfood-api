@@ -1,11 +1,11 @@
 package com.rahmandev.califiasfood.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rahmandev.califiasfood.constant.ConstantTable;
-import com.rahmandev.califiasfood.constant.StatusMenu;
+import com.rahmandev.califiasfood.constant.MenuStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -24,7 +24,7 @@ public class Menu {
     @Column(name = "price", nullable = false)
     private Long price;
     @Column(name = "topping_is_active", nullable = false)
-    private boolean toppingIsActive;
+    private Boolean toppingIsActive;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -32,14 +32,17 @@ public class Menu {
 
     @Column(name = "menu_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private StatusMenu menuStatus;
+    private MenuStatus menuStatus;
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MenuImage> images;
 
-    @OneToMany(mappedBy = "menu",cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Discount> discounts;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "discount_id", nullable = false, unique = true)
+    private Discount discount;
+
+    @Column(name = "delete_at", nullable = true)
+    private Date deleteAt;
 }
 
 

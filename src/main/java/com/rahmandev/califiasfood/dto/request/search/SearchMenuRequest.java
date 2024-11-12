@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MenuSearchRequest {
+public class SearchMenuRequest {
     private String q;
     private Integer page;
     private Integer size;

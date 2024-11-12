@@ -1,2 +1,17 @@
-package com.rahmandev.califiasfood.dto.response;public class DiscountResponse {
+package com.rahmandev.califiasfood.dto.response;
+
+import lombok.*;
+
+import java.util.Date;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class DiscountResponse {
+    private String id;
+    private Long discountAmount;
+    private Date startDate;
+    private Date endDate;
 }

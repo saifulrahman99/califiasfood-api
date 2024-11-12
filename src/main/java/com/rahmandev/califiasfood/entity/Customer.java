@@ -25,4 +25,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Address> addresses;
+
+    @OneToOne(mappedBy = "customer")
+    private UserAccount userAccount;
 }

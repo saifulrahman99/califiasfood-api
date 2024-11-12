@@ -1,6 +1,5 @@
 package com.rahmandev.califiasfood.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rahmandev.califiasfood.constant.ConstantTable;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,17 +17,12 @@ public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(name = "discount_amount", nullable = false)
+    @Column(name = "discount_amount")
     private Long discountAmount;
-    @Column(name = "start_date", nullable = false)
+    @Column(name = "start_date")
     private Date startDate;
-    @Column(name = "end_date", nullable = false)
+    @Column(name = "end_date")
     private Date endDate;
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private Boolean isActive;
-
-    @ManyToOne
-    @JoinColumn(name = "menu_id",nullable = false)
-    @JsonBackReference
-    private Menu menu;
 }

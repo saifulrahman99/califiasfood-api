@@ -19,8 +19,8 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id", nullable = false, unique = true, referencedColumnName = "id")
     private Customer customer;
 
     @Column(name = "email", nullable = false, unique = true)

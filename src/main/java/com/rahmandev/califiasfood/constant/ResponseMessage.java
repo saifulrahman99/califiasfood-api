@@ -1,4 +1,4 @@
-package com.enigma.konyaku.constant;
+package com.rahmandev.califiasfood.constant;
 
 public class ResponseMessage {
     public static final String SUCCESS_SAVE_DATA = "successfully save data";
@@ -13,7 +13,7 @@ public class ResponseMessage {
     public static final String INVALID_IMAGE_TYPE = "invalid image type";
     public static final String WRONG_USERNAME_OR_PASSWORD = "username or password it's wrong";
     public static final String BAD_CREDENTIAL = "Bad credentials";
-    public static final String INVALID_MIN_MAX_PRICE = "min price cannot be more than max price";
     public static final String ERROR_INVALID_JWT = "invalid jwt";
     public static final String EXISTING_WISHLIST = "Already exist in wishlist";
+    public static final String DUPLICATE_KEY = "Already exist";
 }

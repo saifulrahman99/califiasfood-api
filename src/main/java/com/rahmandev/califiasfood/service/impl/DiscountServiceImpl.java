@@ -1,13 +1,17 @@
 package com.rahmandev.califiasfood.service.impl;
 
 import com.rahmandev.califiasfood.constant.ResponseMessage;
+import com.rahmandev.califiasfood.dto.request.search.SearchDiscountRequest;
 import com.rahmandev.califiasfood.dto.request.update.UpdateDiscountRequest;
 import com.rahmandev.califiasfood.dto.response.DiscountResponse;
 import com.rahmandev.califiasfood.entity.Discount;
 import com.rahmandev.califiasfood.repository.DiscountRepository;
 import com.rahmandev.califiasfood.service.DiscountService;
+import com.rahmandev.califiasfood.specification.DiscountSpecification;
 import com.rahmandev.califiasfood.util.DateUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +26,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public DiscountResponse updateDiscount(UpdateDiscountRequest request) {
+    public DiscountResponse update(UpdateDiscountRequest request) {
         String pattern = "yyyy-MM-dd HH:mm:ss";
         Discount discount = getDiscountById(request.getId());
 
@@ -47,10 +51,19 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public List<DiscountResponse> getAll() {
-        List<Discount> discounts = discountRepository.findAll();
+    public Page<DiscountResponse> getAll(SearchDiscountRequest request) {
+        if (request.getPage() <= 0) request.setPage(1);
+        Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), request.getSortBy());
+        Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
 
-        return discounts.stream().map(DiscountServiceImpl::getDiscountResponse).toList();
+        Specification<Discount> specification = DiscountSpecification.getSpecification(request.getQ());
+
+        Page<Discount> discounts = discountRepository.findAll(specification, pageable);
+        List<DiscountResponse> discountResponses = discounts.getContent().stream()
+                .map(
+                        this::getDiscountResponse
+                ).toList();
+        return new PageImpl<>(discountResponses, pageable, discounts.getTotalElements());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -59,7 +72,7 @@ public class DiscountServiceImpl implements DiscountService {
         getDiscountById(id).setIsActive(!getDiscountById(id).getIsActive());
     }
 
-    private static DiscountResponse getDiscountResponse(Discount discount) {
+    private DiscountResponse getDiscountResponse(Discount discount) {
         return DiscountResponse.builder()
                 .id(discount.getId())
                 .discountAmount(discount.getDiscountAmount())

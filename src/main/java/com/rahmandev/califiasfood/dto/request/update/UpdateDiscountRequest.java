@@ -15,6 +15,5 @@ public class UpdateDiscountRequest {
     private String startDate;
     private String endDate;
     private Boolean isActive;
-    private String menuId;
 }
 

@@ -11,11 +11,6 @@ import java.util.List;
 
 @Repository
 public interface MenuImageRepository extends JpaRepository<MenuImage, String> {
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM MenuImage i WHERE i.menu.id = :menuId")
-    void deleteByMenuId(String menuId);
-
     @Query("SELECT i FROM MenuImage i WHERE i.menu.id = :menuId")
     List<MenuImage> findByMenuId(String menuId);
 }

@@ -1,7 +1,7 @@
 package com.rahmandev.califiasfood.dto.request.update;
 
-import com.rahmandev.califiasfood.dto.request.MenuImageRequest;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public class UpdateMenuRequest {
     private Boolean toppingIsActive;
     private String categoryId;
     private String menuStatus;
-    private List<MenuImageRequest> images;
+    private List<MultipartFile> images;
 }

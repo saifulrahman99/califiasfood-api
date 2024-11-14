@@ -14,4 +14,7 @@ public class DiscountResponse {
     private Long discountAmount;
     private Date startDate;
     private Date endDate;
+    private Boolean isActive;
+    private String MenuName;
+    private Long MenuPrice;
 }

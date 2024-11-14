@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PagingResponse {
-    private Integer totalPages;
+    private Integer totalPage;
     private Long totalElement;
     private Integer page;
     private Integer size;

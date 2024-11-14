@@ -1,5 +1,6 @@
 package com.rahmandev.califiasfood.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rahmandev.califiasfood.constant.ConstantTable;
 import com.rahmandev.califiasfood.constant.MenuStatus;
 import jakarta.persistence.*;
@@ -38,7 +39,8 @@ public class Menu {
     private List<MenuImage> images;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "discount_id", nullable = false, unique = true)
+    @JoinColumn(name = "discount_id", nullable = false, unique = true,referencedColumnName = "id")
+    @JsonManagedReference
     private Discount discount;
 
     @Column(name = "delete_at", nullable = true)

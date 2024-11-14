@@ -1,6 +1,10 @@
 package com.rahmandev.califiasfood.dto.request;
 
+import com.rahmandev.califiasfood.entity.Menu;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -8,9 +12,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class MenuImageRequest {
-    private String id;
-    private String name;
-    private String path;
-    private Long size;
-    private String contentType;
+    private Menu menu;
+    private List<MultipartFile> image;
 }

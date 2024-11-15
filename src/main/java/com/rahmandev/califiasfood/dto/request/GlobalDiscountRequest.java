@@ -1,4 +1,4 @@
-package com.rahmandev.califiasfood.dto.request.update;
+package com.rahmandev.califiasfood.dto.request;
 
 import lombok.*;
 
@@ -7,11 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateDiscountRequest {
-    private String id;
+public class GlobalDiscountRequest {
+    private String name;
     private Long discountAmount;
     private String startDate;
     private String endDate;
     private Boolean isActive;
 }
-

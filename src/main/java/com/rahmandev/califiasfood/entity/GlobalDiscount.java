@@ -17,12 +17,14 @@ public class GlobalDiscount {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @Column(name = "discount_amount",nullable = false)
+    @Column(name = "name", nullable = false)
+    private String name;
+    @Column(name = "discount_amount", nullable = false)
     private Long discountAmount;
-    @Column(name = "start_date",nullable = false)
+    @Column(name = "start_date", nullable = false)
     private Date startDate;
-    @Column(name = "end_date",nullable = false)
+    @Column(name = "end_date", nullable = false)
     private Date endDate;
-    @Column(name = "is_active",nullable = false)
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 }

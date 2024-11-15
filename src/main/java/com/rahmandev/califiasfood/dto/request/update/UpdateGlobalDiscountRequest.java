@@ -7,11 +7,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateDiscountRequest {
+public class UpdateGlobalDiscountRequest {
     private String id;
+    private String name;
     private Long discountAmount;
     private String startDate;
     private String endDate;
     private Boolean isActive;
 }
-

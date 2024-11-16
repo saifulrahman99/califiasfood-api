@@ -1,11 +1,14 @@
 package com.rahmandev.califiasfood.service.impl;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 import com.rahmandev.califiasfood.service.CloudinaryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,23 +27,23 @@ public class CloudinaryServiceImpl implements CloudinaryService {
             options.put("folder", folderName);
             Map uploadedFile = cloudinary.uploader().upload(file.getBytes(), options);
             String publicId = (String) uploadedFile.get("public_id");
-            return cloudinary.url().secure(true).generate(publicId);
+            return cloudinary.url().secure(true)
+                    .transformation(new Transformation<>()
+                            .crop("crop")
+                            .aspectRatio("1:1")
+                    )
+                    .generate(publicId);
         } catch (IOException e) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
     @Override
-    public Boolean deleteImage(String publicId) {
+    public void deleteImage(String publicId) {
         try {
             Map result = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-            if ("ok".equals(result.get("result"))) {
-                return true;
-            } else {
-                return false;
-            }
         } catch (Exception e) {
-            return false;
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.rahmandev.califiasfood.service;
 
 import com.rahmandev.califiasfood.dto.request.MenuImageRequest;
+import com.rahmandev.califiasfood.dto.request.MenuImageSingleRequest;
+import com.rahmandev.califiasfood.dto.response.MenuImageResponse;
 import com.rahmandev.califiasfood.entity.MenuImage;
 
 import java.util.List;
@@ -18,5 +20,6 @@ public interface MenuImageService {
 
     List<MenuImage> update(MenuImageRequest request);
 
+    MenuImageResponse createSingleImage(MenuImageSingleRequest request);
 
 }

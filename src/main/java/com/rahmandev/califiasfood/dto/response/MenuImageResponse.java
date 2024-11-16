@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class MenuImageResponse {
-    private String url;
+    private String id;
     private String name;
+    private String url;
 }

@@ -2,6 +2,7 @@ package com.rahmandev.califiasfood.service.impl;
 
 import com.rahmandev.califiasfood.constant.ResponseMessage;
 import com.rahmandev.califiasfood.constant.MenuStatus;
+import com.rahmandev.califiasfood.dto.request.MenuImageSingleRequest;
 import com.rahmandev.califiasfood.dto.request.MenuRequest;
 import com.rahmandev.califiasfood.dto.request.search.SearchMenuRequest;
 import com.rahmandev.califiasfood.dto.request.MenuImageRequest;
@@ -27,6 +28,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
@@ -64,7 +66,7 @@ public class MenuServiceImpl implements MenuService {
         });
         List<MenuImage> images = menuImageService.createBulk(
                 MenuImageRequest.builder()
-                        .image(request.getImages())
+                        .images(request.getImages())
                         .menu(menu)
                         .build()
         );
@@ -72,6 +74,7 @@ public class MenuServiceImpl implements MenuService {
 
         List<MenuImageResponse> menuImageResponses = images.stream().map(image -> {
             return MenuImageResponse.builder()
+                    .id(image.getId())
                     .name(image.getName())
                     .url(image.getPath())
                     .build();
@@ -105,10 +108,11 @@ public class MenuServiceImpl implements MenuService {
             List<MenuImage> newImages = menuImageService.update(
                     MenuImageRequest.builder()
                             .menu(menu)
-                            .image(request.getImages())
+                            .images(request.getImages())
                             .build());
             List<MenuImageResponse> menuImageResponses = newImages.stream().map(image -> {
                 return MenuImageResponse.builder()
+                        .id(image.getId())
                         .name(image.getName())
                         .url(image.getPath())
                         .build();
@@ -117,6 +121,7 @@ public class MenuServiceImpl implements MenuService {
         } else {
             List<MenuImageResponse> menuImageResponses = menu.getImages().stream().map(image -> {
                 return MenuImageResponse.builder()
+                        .id(image.getId())
                         .name(image.getName())
                         .url(image.getPath())
                         .build();
@@ -153,6 +158,23 @@ public class MenuServiceImpl implements MenuService {
         return getMenuResponse(menu);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteSingleImage(String imageId) {
+        menuImageService.deleteById(imageId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public MenuImageResponse createSingleImage(String menuId, MultipartFile image) {
+        Menu menu = getMenuById(menuId);
+        MenuImageSingleRequest request = MenuImageSingleRequest.builder()
+                .menu(menu)
+                .image(image)
+                .build();
+        return menuImageService.createSingleImage(request);
+    }
+
     private MenuResponse getMenuResponse(Menu menu) {
         DiscountResponse discountResponse = DiscountResponse.builder()
                 .id(menu.getDiscount().getId())
@@ -166,6 +188,7 @@ public class MenuServiceImpl implements MenuService {
         List<MenuImageResponse> imageResponses = menu.getImages().stream().map(
                 image -> {
                     return MenuImageResponse.builder()
+                            .id(image.getId())
                             .name(image.getName())
                             .url(image.getPath())
                             .build();

@@ -3,10 +3,12 @@ package com.rahmandev.califiasfood.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rahmandev.califiasfood.constant.APIUrl;
 import com.rahmandev.califiasfood.constant.ResponseMessage;
+import com.rahmandev.califiasfood.dto.request.MenuImageSingleRequest;
 import com.rahmandev.califiasfood.dto.request.MenuRequest;
 import com.rahmandev.califiasfood.dto.request.search.SearchMenuRequest;
 import com.rahmandev.califiasfood.dto.request.update.UpdateMenuRequest;
 import com.rahmandev.califiasfood.dto.response.CommonResponse;
+import com.rahmandev.califiasfood.dto.response.MenuImageResponse;
 import com.rahmandev.califiasfood.dto.response.MenuResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.rahmandev.califiasfood.dto.response.PagingResponse;
@@ -134,5 +136,33 @@ public class MenuController {
             responseBuilder.statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBuilder.build());
         }
+    }
+
+    @DeleteMapping(path = "/image/{imageId}")
+    public ResponseEntity<CommonResponse<String>> deleteImage(@PathVariable("imageId") String imageId) {
+        menuService.deleteSingleImage(imageId);
+        CommonResponse<String> response = CommonResponse.<String>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message(ResponseMessage.SUCCESS_DELETE_DATA)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(
+            path = "/image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<CommonResponse<MenuImageResponse>> createImage(
+            @RequestPart(name = "menu_id") String menuId,
+            @RequestParam(name = "image", required = true) MultipartFile image
+    ) {
+        MenuImageResponse singleImageResponse = menuService.createSingleImage(menuId, image);
+        CommonResponse<MenuImageResponse> response = CommonResponse.<MenuImageResponse>builder()
+                .statusCode(HttpStatus.CREATED.value())
+                .message(ResponseMessage.SUCCESS_SAVE_DATA)
+                .data(singleImageResponse)
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

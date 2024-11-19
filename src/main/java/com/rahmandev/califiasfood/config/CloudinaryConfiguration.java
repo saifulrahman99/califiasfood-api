@@ -2,12 +2,12 @@ package com.rahmandev.califiasfood.config;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ClaudinaryConfiguration {
+public class CloudinaryConfiguration {
     @Value("${CLOUDINARY_CLOUD_NAME}")
     private String cloudName;
 

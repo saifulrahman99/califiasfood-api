@@ -1,5 +1,6 @@
 package com.rahmandev.califiasfood.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rahmandev.califiasfood.constant.ConstantTable;
 import jakarta.persistence.*;
@@ -27,5 +28,6 @@ public class Customer {
     private List<Address> addresses;
 
     @OneToOne(mappedBy = "customer")
+    @JsonBackReference
     private UserAccount userAccount;
 }

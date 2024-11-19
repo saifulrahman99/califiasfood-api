@@ -16,4 +16,8 @@ public class ResponseMessage {
     public static final String ERROR_INVALID_JWT = "invalid jwt";
     public static final String EXISTING_WISHLIST = "Already exist in wishlist";
     public static final String DUPLICATE_KEY = "Already exist";
+    public static final String INVALID_OTP = "invalid OTP";
+    public static final String USER_NOT_FOUND = "user not found";
+    public static final String SUCCESS_VERIFY = "verify account successfully";
+    public static final String SUCCESS_SEND_OTP = "send OTP successfully";
 }

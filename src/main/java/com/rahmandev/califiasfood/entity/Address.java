@@ -1,6 +1,5 @@
 package com.rahmandev.califiasfood.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rahmandev.califiasfood.constant.ConstantTable;
 import jakarta.persistence.*;
 import lombok.*;

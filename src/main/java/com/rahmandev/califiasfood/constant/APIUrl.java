@@ -7,5 +7,7 @@ public class APIUrl {
     public static final String GLOBAL_DISCOUNT_API = "/api/global_discounts";
     public static final String TOPPING_API = "/api/toppings";
     public static final String MENU_IMAGE_API = "/api/menu_images";
+    public static final String AUTH_API = "/api/auth";
+    public static final String CUSTOMER_API = "/api/customers";
 
 }

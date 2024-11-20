@@ -30,7 +30,6 @@ public class AddressServiceImpl implements AddressService {
         return AddressResponse.builder()
                 .id(address.getId())
                 .address(address.getAddress())
-                .customerId(address.getCustomer().getId())
                 .build();
     }
 
@@ -57,12 +56,12 @@ public class AddressServiceImpl implements AddressService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public AddressResponse update(UpdateAddressRequest address) {
-        Address currentAddress = getById(address.getId());
-        currentAddress.setAddress(address.getAddress());
+    public AddressResponse update(UpdateAddressRequest request) {
+        Address address = getById(request.getId());
+        address.setAddress(request.getAddress());
         return AddressResponse.builder()
-                .id(currentAddress.getId())
-                .address(currentAddress.getAddress())
+                .id(address.getId())
+                .address(address.getAddress())
                 .build();
     }
 
@@ -81,7 +80,6 @@ public class AddressServiceImpl implements AddressService {
                     return AddressResponse.builder()
                             .id(address.getId())
                             .address(address.getAddress())
-                            .customerId(address.getCustomer().getId())
                             .build();
                 }
         ).toList();

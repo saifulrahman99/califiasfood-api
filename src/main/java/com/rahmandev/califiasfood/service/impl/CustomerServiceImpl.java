@@ -51,7 +51,6 @@ public class CustomerServiceImpl implements CustomerService {
                                                 return AddressResponse.builder()
                                                         .id(address.getId())
                                                         .address(address.getAddress())
-                                                        .customerId(customer.getId())
                                                         .build();
                                             }
                                     ).toList()

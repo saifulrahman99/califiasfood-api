@@ -10,5 +10,4 @@ import lombok.*;
 public class AddressResponse {
     private String id;
     private String address;
-    private String customerId;
 }

@@ -1,6 +1,5 @@
 package com.rahmandev.califiasfood.service;
 
-import com.rahmandev.califiasfood.dto.request.MenuImageSingleRequest;
 import com.rahmandev.califiasfood.dto.request.MenuRequest;
 import com.rahmandev.califiasfood.dto.request.search.SearchMenuRequest;
 import com.rahmandev.califiasfood.dto.request.update.UpdateMenuRequest;

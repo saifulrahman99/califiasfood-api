@@ -3,7 +3,6 @@ package com.rahmandev.califiasfood.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rahmandev.califiasfood.constant.APIUrl;
 import com.rahmandev.califiasfood.constant.ResponseMessage;
-import com.rahmandev.califiasfood.dto.request.MenuImageSingleRequest;
 import com.rahmandev.califiasfood.dto.request.MenuRequest;
 import com.rahmandev.califiasfood.dto.request.search.SearchMenuRequest;
 import com.rahmandev.califiasfood.dto.request.update.UpdateMenuRequest;

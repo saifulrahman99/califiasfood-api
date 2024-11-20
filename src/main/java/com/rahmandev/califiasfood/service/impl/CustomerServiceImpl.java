@@ -1,19 +1,17 @@
 package com.rahmandev.califiasfood.service.impl;
 
 import com.rahmandev.califiasfood.constant.ResponseMessage;
-import com.rahmandev.califiasfood.dto.request.AddressRequest;
-import com.rahmandev.califiasfood.dto.request.CustomerRequest;
-import com.rahmandev.califiasfood.dto.request.update.UpdateAddressRequest;
+import com.rahmandev.califiasfood.dto.request.search.SearchCustomerRequest;
 import com.rahmandev.califiasfood.dto.request.update.UpdateCustomerRequest;
 import com.rahmandev.califiasfood.dto.response.AddressResponse;
 import com.rahmandev.califiasfood.dto.response.CustomerResponse;
-import com.rahmandev.califiasfood.entity.Address;
 import com.rahmandev.califiasfood.entity.Customer;
 import com.rahmandev.califiasfood.repository.CustomerRepository;
-import com.rahmandev.califiasfood.service.AddressService;
 import com.rahmandev.califiasfood.service.CustomerService;
+import com.rahmandev.califiasfood.specification.CustomerSpecification;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +23,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
-    private final AddressService addressService;
 
     @Override
     public Customer create(Customer customer) {
@@ -33,8 +30,36 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<CustomerResponse> findAll(CustomerRequest request) {
-        return null;
+    public Page<CustomerResponse> findAll(SearchCustomerRequest request) {
+        if (request.getPage() <= 0) request.setPage(1);
+        Sort sort = Sort.by(Sort.Direction.fromString(request.getDirection()), request.getSortBy());
+        Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
+
+        Specification<Customer> specification = CustomerSpecification.getSpecification(request.getQ());
+        Page<Customer> customers = customerRepository.findAll(specification, pageable);
+
+        List<CustomerResponse> customerResponse = customers.getContent().stream().map(
+                customer -> {
+                    return CustomerResponse.builder()
+                            .id(customer.getId())
+                            .name(customer.getName())
+                            .phoneNumber(customer.getPhoneNumber())
+                            .userAccountId(customer.getUserAccount().getId())
+                            .addresses(
+                                    customer.getAddresses().stream().map(
+                                            address -> {
+                                                return AddressResponse.builder()
+                                                        .id(address.getId())
+                                                        .address(address.getAddress())
+                                                        .customerId(customer.getId())
+                                                        .build();
+                                            }
+                                    ).toList()
+                            ).build();
+                }
+        ).toList();
+
+        return new PageImpl<>(customerResponse, pageable, customers.getTotalElements());
     }
 
     @Override
@@ -61,25 +86,6 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setName(request.getName());
         customer.setPhoneNumber(request.getPhoneNumber());
         return getCustomerResponse(customer);
-    }
-
-    @Override
-    public AddressResponse addAddress(AddressRequest request) {
-        Customer customer = getCustomerById(request.getCustomerId());
-        return addressService.create(Address.builder()
-                .address(request.getAddress())
-                .customer(customer)
-                .build());
-    }
-
-    @Override
-    public AddressResponse updateAddress(UpdateAddressRequest request) {
-        return addressService.update(request);
-    }
-
-    @Override
-    public void deleteAddress(String addressId) {
-        addressService.delete(addressId);
     }
 
     private CustomerResponse getCustomerResponse(Customer customer) {

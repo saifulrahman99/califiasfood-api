@@ -2,6 +2,7 @@ package com.rahmandev.califiasfood.service.impl;
 
 import com.rahmandev.califiasfood.constant.ResponseMessage;
 import com.rahmandev.califiasfood.constant.UserRole;
+import com.rahmandev.califiasfood.dto.request.AddressRequest;
 import com.rahmandev.califiasfood.dto.request.RegisterRequest;
 import com.rahmandev.califiasfood.dto.request.LoginRequest;
 import com.rahmandev.califiasfood.dto.request.VerifyOtpRequest;
@@ -78,11 +79,11 @@ public class AuthServiceImpl implements AuthService {
                 .customer(customer)
                 .build();
         repository.saveAndFlush(account);
-        Address address = Address.builder()
+        AddressRequest addressRequest = AddressRequest.builder()
                 .address(addressSuperAdmin)
-                .customer(account.getCustomer())
+                .customerId(account.getCustomer().getId())
                 .build();
-        addressService.create(address);
+        addressService.create(addressRequest);
     }
 
     @Transactional(rollbackFor = Exception.class)

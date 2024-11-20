@@ -16,7 +16,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("OTP Verification");
-        message.setText("Your OTP is: " + otp + "\nPlease do not share this code with anyone.\nThank you!");
+        message.setText("Your OTP is: " + otp + "\n\nPlease do not share this code with anyone.\n\nThank you!");
         mailSender.send(message);
     }
 }

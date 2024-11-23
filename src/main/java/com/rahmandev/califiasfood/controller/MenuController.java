@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,7 @@ public class MenuController {
     private final MenuService menuService;
     private final ObjectMapper objectMapper;
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -100,6 +102,7 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<CommonResponse<String>> delete(@PathVariable("id") String id) {
         menuService.delete(id);
@@ -110,6 +113,7 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PutMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -137,6 +141,7 @@ public class MenuController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @DeleteMapping(path = "/image/{imageId}")
     public ResponseEntity<CommonResponse<String>> deleteImage(@PathVariable("imageId") String imageId) {
         menuService.deleteSingleImage(imageId);
@@ -147,6 +152,7 @@ public class MenuController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PostMapping(
             path = "/image",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,

@@ -10,6 +10,7 @@ import com.rahmandev.califiasfood.service.ToppingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ToppingController {
     private final ToppingService toppingService;
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PostMapping
     public ResponseEntity<CommonResponse<ToppingResponse>> create(@RequestBody ToppingRequest request) {
         ToppingResponse toppingResponse = toppingService.create(request);
@@ -31,6 +33,7 @@ public class ToppingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PutMapping
     public ResponseEntity<CommonResponse<ToppingResponse>> update(@RequestBody UpdateToppingRequest request) {
         ToppingResponse toppingResponse = toppingService.update(request);

@@ -10,6 +10,7 @@ import com.rahmandev.califiasfood.service.GlobalDiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class GlobalDiscountController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PostMapping
     public ResponseEntity<CommonResponse<GlobalDiscountResponse>> create(@RequestBody GlobalDiscountRequest request) {
         GlobalDiscountResponse globalDiscountResponse = globalDiscountService.create(request);
@@ -53,6 +55,7 @@ public class GlobalDiscountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PutMapping
     public ResponseEntity<CommonResponse<GlobalDiscountResponse>> update(@RequestBody UpdateGlobalDiscountRequest request) {
         GlobalDiscountResponse globalDiscountResponse = globalDiscountService.update(request);
@@ -75,6 +78,7 @@ public class GlobalDiscountController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<CommonResponse<String>> delete(@PathVariable String id) {
         globalDiscountService.delete(id);

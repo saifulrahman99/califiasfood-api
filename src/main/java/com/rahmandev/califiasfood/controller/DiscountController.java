@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -55,6 +56,7 @@ public class DiscountController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PutMapping
     public ResponseEntity<CommonResponse<DiscountResponse>> update(@RequestBody UpdateDiscountRequest request) {
         DiscountResponse discountResponse = discountService.update(request);
@@ -66,6 +68,7 @@ public class DiscountController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
     @PutMapping(path = "/{id}")
     public ResponseEntity<CommonResponse<String>> update(@PathVariable String id) {
         discountService.updateStatusDiscount(id);

@@ -17,4 +17,5 @@ public class ConstantTable {
     public static final String BILL_DETAIL = "bill_detail";
     public static final String TOPPING = "m_topping";
     public static final String PAYMENT = "m_payment";
+    public static final String BILL_DETAIL_TOPPING = "bill_detail_topping";
 }

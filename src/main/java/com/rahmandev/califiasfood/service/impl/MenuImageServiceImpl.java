@@ -23,7 +23,6 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class MenuImageServiceImpl implements MenuImageService {
-    private static final Logger log = LoggerFactory.getLogger(MenuImageServiceImpl.class);
     private final MenuImageRepository menuImageRepository;
     private final CloudinaryService cloudinaryService;
     private final String folderName = "menu";

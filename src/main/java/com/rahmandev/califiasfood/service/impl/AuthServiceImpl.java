@@ -106,12 +106,12 @@ public class AuthServiceImpl implements AuthService {
                 .build();
         UserAccount userAccount = repository.saveAndFlush(account);
 
-        userAccount.getCustomer().setAddresses(List.of(
-                Address.builder()
-                        .address(request.getAddress())
-                        .customer(account.getCustomer())
-                        .build()
-        ));
+        AddressRequest addressRequest = AddressRequest.builder()
+                .address(request.getAddress())
+                .customerId(account.getCustomer().getId())
+                .build();
+        addressService.create(addressRequest);
+
         // send otp verification
         emailSenderService.sendOtp(request.getEmail(), otp);
 
@@ -128,7 +128,31 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public RegisterResponse registerAdmin(RegisterRequest request) {
-        return null;
+        Role adminRole = roleService.getOrSave(UserRole.ROLE_ADMIN);
+        Role customerRole = roleService.getOrSave(UserRole.ROLE_CUSTOMER);
+        String hashPassword = passwordEncoder.encode(request.getPassword());
+        Customer customer = Customer.builder().name(request.getName()).phoneNumber(request.getPhoneNumber()).addresses(null).build();
+        UserAccount account = UserAccount.builder()
+                .email(request.getEmail())
+                .password(hashPassword)
+                .role(List.of(adminRole, customerRole))
+                .isEnabled(true)
+                .customer(customer)
+                .createdAt(new Date())
+                .build();
+        UserAccount userAccount = repository.saveAndFlush(account);
+
+        AddressRequest addressRequest = AddressRequest.builder()
+                .address(request.getAddress())
+                .customerId(account.getCustomer().getId())
+                .build();
+        addressService.create(addressRequest);
+        return RegisterResponse.builder()
+                .userAccountId(account.getId())
+                .idCustomer(customer.getId())
+                .email(account.getEmail())
+                .roles(account.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+                .build();
     }
 
     @Override

@@ -27,12 +27,19 @@ public class CloudinaryServiceImpl implements CloudinaryService {
             options.put("folder", folderName);
             Map uploadedFile = cloudinary.uploader().upload(file.getBytes(), options);
             String publicId = (String) uploadedFile.get("public_id");
-            return cloudinary.url().secure(true)
-                    .transformation(new Transformation<>()
-                            .crop("crop")
-                            .aspectRatio("1:1")
-                    )
-                    .generate(publicId);
+            if (folderName.equals("payment")) {
+                return cloudinary.url()
+                        .secure(true)
+                        .generate(publicId);
+            } else {
+                return cloudinary.url()
+                        .secure(true)
+                        .transformation(new Transformation<>()
+                                .crop("crop")
+                                .aspectRatio("1:1")
+                        )
+                        .generate(publicId);
+            }
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

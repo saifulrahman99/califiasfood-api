@@ -1,6 +1,7 @@
 package com.rahmandev.califiasfood.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rahmandev.califiasfood.constant.ConstantTable;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,7 @@ public class BillDetail {
     @Column(name = "qty", nullable = false)
     private Integer qty;
 
-    @ManyToMany
-    private List<Topping> toppings;
+    @OneToMany(mappedBy = "billDetail")
+    @JsonManagedReference
+    private List<BillDetailTopping> toppings;
 }

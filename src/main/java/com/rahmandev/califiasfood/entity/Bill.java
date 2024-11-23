@@ -24,6 +24,11 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     @Column(name = "bill_date", nullable = false)
     private Date billDate;
     @Column(name = "delivery_type", nullable = false)
@@ -34,7 +39,8 @@ public class Bill {
     @JsonManagedReference
     private List<BillDetail> billDetails;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id", nullable = false, unique = true)
+    @JsonManagedReference
     private Payment payment;
 }

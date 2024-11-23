@@ -37,8 +37,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
-
-    private static final Logger log = LoggerFactory.getLogger(MenuServiceImpl.class);
     private final MenuRepository menuRepository;
     private final MenuImageService menuImageService;
     private final CategoryService categoryService;
